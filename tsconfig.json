@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "module": "commonjs",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "stripInternal": true,
+        "pretty": true,
+        "declaration": true,
+        "declarationDir": "lib",
+        "typeRoots": [
+            "./types",
+            "./node_modules/@types/"
+        ],
+        "jsx": "react-jsx",
+        "outDir": "lib",
+        "baseUrl": "./",
+        "paths": {
+            "*": [
+                "src/*",
+                "types/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*",
+        "types/*"
+    ],
+    "exclude": [
+        "lib",
+        "bin",
+        "node_modules",
+    ]
+}
