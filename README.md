@@ -1,7 +1,7 @@
 # 安装
 
 ```bash
-npm install q-tool-cli -D
+npm install -g q-tool-cli
 ```
 
 # 使用

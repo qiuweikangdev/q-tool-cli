@@ -14,22 +14,23 @@
         "declaration": true,
         "declarationDir": "lib",
         "typeRoots": [
-            "./types",
-            "./node_modules/@types/"
+            "src/types",
+            "./node_modules/@types"
         ],
+        "noEmit": false,
         "jsx": "react-jsx",
         "outDir": "lib",
         "baseUrl": "./",
         "paths": {
             "*": [
                 "src/*",
-                "types/*"
+                "src/types/*"
             ]
         }
     },
     "include": [
         "src/**/*",
-        "types/*"
+        "src/types/*"
     ],
     "exclude": [
         "lib",

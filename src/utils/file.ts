@@ -101,6 +101,29 @@ export function getTemplateType() {
   return "react";
 }
 
-/**
- *  读取配置文件q.config.ts
+/**  兼容ts/js
+ *  读取webpack配置文件信息,q.config.ts/q.config.js
  */
+export function getWebpackConfig() {
+  let config = "";
+  try {
+    const files = globby.globbySync(["**/q.config.**"], {
+      cwd: process.cwd(),
+      ignore: ["node_modules"]
+    });
+    const filePath = find(
+      files,
+      (item) => item.includes("q.config.ts") || item.includes("q.config.js")
+    );
+    config = fs.readFileSync(getProjectPath(filePath), { encoding: "utf-8" });
+  } catch (e) {
+    config = fs.readFileSync(path.resolve(__dirname, "../../q.config.ts"), {
+      encoding: "utf-8"
+    });
+    fs.writeFile(getProjectPath("q.config.ts"), config, {
+      encoding: "utf-8"
+    });
+  } finally {
+    return JSON.parse(JSON.stringify(config.substring(14).trim()));
+  }
+}

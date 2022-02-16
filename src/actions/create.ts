@@ -1,10 +1,3 @@
-// import {
-//   downloadTemplate,
-//   generateEslint,
-//   initProjectDir,
-//   isFileExist,
-// } from "../utils/file1";
-// import { USER_HOME } from "../utils/constants";
 import path from "path";
 import { chalk, fs } from "zx";
 import { get } from "lodash";

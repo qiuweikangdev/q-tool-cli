@@ -1,7 +1,9 @@
 import Webpack from "webpack";
-import devConfig from "../lib/webpack/webpack.dev";
+import devConfig from "../libs/webpack/webpack.dev";
 import WebpackDevServer from "webpack-dev-server";
-import buildConfig from "../lib/webpack/webpack.prod";
+import buildConfig from "../libs/webpack/webpack.prod";
+import { getWebpackConfig } from "../utils/file";
+import run from "../libs/webpack/webpack.dev";
 // import Generator from "../utils/Generator";
 // import path from "path";
 // import { get } from "lodash";
@@ -48,14 +50,13 @@ function runBuild() {
 
 export default (actionName: actionNameType, options) => {
   const actionMap = {
-    dev: () => {
-      runDev();
-    },
+    dev: () => run(),
     build: () => {
       runBuild();
     }
   };
   if (Object.keys(actionMap).includes(actionName)) {
+    getWebpackConfig();
     actionMap[actionName]();
   } else {
     console.log("error command");

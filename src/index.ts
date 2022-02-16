@@ -1,10 +1,7 @@
 import create from "./actions/create";
-import { Command } from "commander";
+import { program } from "commander";
 import run from "./actions/run";
 import { VERSION } from "./utils/constants";
-const program = new Command("q-cli");
-
-console.log(VERSION,'VERSIONVERSIONVERSION');
 
 program
   .command("create <projectName>")
@@ -22,7 +19,7 @@ program.addHelpText(
   "after",
   `
   Example create a project:
-    $ q-cli create demo
+    $ q-tool create demo
 `
 );
 
@@ -46,5 +43,8 @@ program.on("option:debug", () => {
     process.env.LOG_LEVEL = "verbose";
   }
 });
+
+// 版本
+program.version(VERSION, "-V, --version");
 
 program.parse(process.argv);
