@@ -8,18 +8,15 @@ program
   .description("create project")
   .action(create);
 
-program
-  .command("run [config]")
-  .description("run webpack config")
-  // .option("-dev --development", "webpack.dev.js", "dev")
-  // .option("-build --production", "webpack.dev.js", "dev")
-  .action(run);
+program.command("run [config]").description("run webpack config").action(run);
 
 program.addHelpText(
   "after",
   `
   Example create a project:
-    $ q-tool create demo
+    $ q-tool create demo  创建一个项目
+    $ q-tool run dev  启动开发环境
+    $ q-tool run build  启动生产环境
 `
 );
 

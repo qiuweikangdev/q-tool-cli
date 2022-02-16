@@ -4,35 +4,8 @@ import WebpackDevServer from "webpack-dev-server";
 import buildConfig from "../libs/webpack/webpack.prod";
 import { getWebpackConfig } from "../utils/file";
 import run from "../libs/webpack/webpack.dev";
-// import Generator from "../utils/Generator";
-// import path from "path";
-// import { get } from "lodash";
 
 type actionNameType = "dev" | "build";
-
-async function runDev() {
-  //   const generator = new Generator();
-  //   generator.generatorToolConfig();
-  //   获取q.config配置文件 devParam.devServer配置合并
-  //   const toolPath = path.join(process.cwd(), "/q.config.js");
-  //   console.log(toolPath, "toolPath");
-  //   const toolConfigJSON = await import(toolPath);
-  //   console.log(toolConfigJSON, "toolConfigJSON");
-  //   const { devParam } = toolConfigJSON;
-  const compiler = Webpack(devConfig);
-  const devServerConfig = {
-    // static: path.resolve(process.cwd(), "/public"),
-    hot: true,
-    open: true,
-    host: "localhost",
-    port: 8000
-    // ...get(devParam, "devServer", {}),
-  };
-  const devServer = new WebpackDevServer(devServerConfig, compiler);
-  devServer.startCallback(() => {
-    console.log("启动中...");
-  });
-}
 
 function runBuild() {
   const compiler = Webpack(buildConfig);
