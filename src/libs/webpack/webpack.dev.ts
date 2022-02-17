@@ -13,23 +13,23 @@ const devConfig: Configuration = {
   }
 };
 
-const webpackConfig = merge(webpackCommon, devConfig);
-
-const run = () => {
-  const configureWebpack = getWebpackConfig();
-  const compiler = Webpack(webpackConfig);
+async function run(options) {
+  const config = await getWebpackConfig();
+  const commonConfig = await webpackCommon();
+  const webpackConfig = merge(commonConfig, devConfig);
+  const { devServer: devParam = {}, configureWebpack } = config;
   const devServerConfig = {
-    // static: path.resolve(process.cwd(), "/public"),
     hot: true,
-    open: true,
+    open: false,
     host: "localhost",
-    port: 8000
-    // ...get(devParam, "devServer", {}),
+    port: 8000,
+    ...devParam
   };
+  const compiler = Webpack(configureWebpack(webpackConfig));
   const devServer = new WebpackDevServer(devServerConfig, compiler);
   devServer.startCallback(() => {
     console.log("启动中...");
   });
-};
+}
 
 export default run;

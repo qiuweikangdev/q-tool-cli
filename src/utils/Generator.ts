@@ -44,7 +44,7 @@ class Generator {
   _resolveData(additionalData) {
     return {
       options: this.options,
-      ...additionalData,
+      ...additionalData
     };
   }
 
@@ -56,8 +56,7 @@ class Generator {
     source = path.resolve(baseDir, source);
     const _files = await globby(["**/*"], {
       cwd: source, // 当前工作目录
-      //   ignore: options.ignore || "",
-      dot: true, // 允许匹配以.开头的
+      dot: true // 允许匹配以.开头的
     });
     const data = this._resolveData(additionalData);
     for (const rawPath of _files) {
@@ -66,9 +65,6 @@ class Generator {
       const content = await this.renderFile(sourcePath, data, ejsOptions);
       Object.assign(this.files, { [rawPath]: content });
     }
-    // console.log(path.resolve(process.cwd(), "demo"), "path----------");
-    // 把模板文件拷贝到项目中
-    // copySync(source, path.resolve(process.cwd(), "demo"));
   }
 
   // 利用 ejs 渲染模板文件,解析文件内容

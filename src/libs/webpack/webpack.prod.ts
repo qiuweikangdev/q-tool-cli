@@ -1,10 +1,10 @@
 import path from "path";
-import { Configuration } from "webpack";
+import Webpack, { Configuration } from "webpack";
 import merge from "webpack-merge";
 import webpackCommon from "./webpack.common";
-// import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { getWebpackConfig } from "../../utils/file";
 
-const buildConfig: Configuration = merge(webpackCommon, {
+const buildConfig: Configuration = {
   mode: "production",
   devtool: "hidden-source-map",
   output: {
@@ -14,9 +14,23 @@ const buildConfig: Configuration = merge(webpackCommon, {
     clean: true
   },
   plugins: []
-});
+};
 
-// 打包内容分析
-// buildConfig.plugins.push(new BundleAnalyzerPlugin());
+function build(options) {
+  const config = getWebpackConfig();
+  const { configureWebpack } = config;
+  const webpackConfig = merge(webpackCommon(), buildConfig);
+  const compiler = Webpack(configureWebpack(webpackConfig));
+  compiler.run((err, stats) => {
+    stats.toJson("minimal");
+    if (err) console.log(err);
+    if (stats.hasErrors()) {
+      console.log(new Error("Build failed with errors."));
+    }
+    if (stats.hasWarnings()) {
+      console.warn(stats.hasWarnings());
+    }
+  });
+}
 
-export default buildConfig;
+export default build;

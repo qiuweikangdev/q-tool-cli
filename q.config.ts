@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   pages: {
     title: "my-app"
   },
@@ -6,8 +6,8 @@ export default {
   devServer: {
     port: "5000"
   },
+  // webpack配置
   configureWebpack: (config) => {
-    // webpack配置
     return config;
   }
 };

@@ -1,7 +1,9 @@
 import { find, get, includes, keys } from "lodash";
 import path from "path";
-import { fs, globby } from "zx";
+import { Configuration } from "../types/configuration";
+import { $, fs, globby } from "zx";
 import { getProjectPath } from "./utils";
+import readline from "readline";
 
 /**
  * 读取指定路径下 json 文件
@@ -49,7 +51,7 @@ export function extractCallDir() {
   // 将会排在调用栈中的第四行，也就是 obj.stack.split('\n')[3]
   const callSite = obj.stack.split("\n")[3];
   // 通过打印信息，得到如 callSite：
-  // 命名函数：at Object.exports.default (D:\xx\q-cli\lib\generator\react\index.js:6:15)
+  // 命名函数：at Object.exports.default (D:\xx\q-tool\xxxx\generator\react\index.js:6:15)
   // 在命名函数内调用时堆栈的正则表达式
   const namedStackRegExp = /\s\((.*):\d+:\d+\)$/;
   // 在匿名内部调用时堆栈的正则表达式
@@ -104,8 +106,8 @@ export function getTemplateType() {
 /**  兼容ts/js
  *  读取webpack配置文件信息,q.config.ts/q.config.js
  */
-export function getWebpackConfig() {
-  let config = "";
+export async function getWebpackConfig(): Promise<Configuration> {
+  let config = {};
   try {
     const files = globby.globbySync(["**/q.config.**"], {
       cwd: process.cwd(),
@@ -115,15 +117,14 @@ export function getWebpackConfig() {
       files,
       (item) => item.includes("q.config.ts") || item.includes("q.config.js")
     );
-    config = fs.readFileSync(getProjectPath(filePath), { encoding: "utf-8" });
+    config = require(getProjectPath(filePath));
   } catch (e) {
-    config = fs.readFileSync(path.resolve(__dirname, "../../q.config.ts"), {
-      encoding: "utf-8"
-    });
-    fs.writeFile(getProjectPath("q.config.ts"), config, {
-      encoding: "utf-8"
-    });
+    config = require(path.resolve(__dirname, "../../q.config.ts"));
+    fs.copySync(
+      path.resolve(__dirname, "../../q.config.ts"),
+      getProjectPath("q.config.ts")
+    );
   } finally {
-    return JSON.parse(JSON.stringify(config.substring(14).trim()));
+    return config;
   }
 }

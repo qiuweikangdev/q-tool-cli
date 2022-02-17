@@ -30,9 +30,6 @@ class PackageManager {
     return (await this.exists()) ? this.getPackage().version : null;
   }
 
-  // 更新模板文件
-  async update() {}
-
   async install() {
     log("\n正在安装依赖...\n");
     try {
