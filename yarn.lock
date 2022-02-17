@@ -3634,10 +3634,10 @@ pupa@^2.1.1:
   dependencies:
     escape-goat "^2.0.0"
 
-q-cli-template@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/q-cli-template/-/q-cli-template-0.1.1.tgz#7ac86e80de313ae486ffc00209f2913619c418ab"
-  integrity sha512-/g2bMm2DA/5d+sfBtC6wPCMfcNHSS5cuky2OktApND36t+zhGn0n2/c3ZGb/juqXFOFdvi6e94/MiYydWscJ5g==
+q-cli-template@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/q-cli-template/-/q-cli-template-0.1.2.tgz#032f1550072febda8564d930d6eea5764745afcd"
+  integrity sha512-duHqRAVLFWG8sUYta7dhl/U5McYNeiMEOfZzwpFbJfFgQrnH60TEd+r0lcXwbNQa6vjPl+M4w0WJz5MouOTsOg==
 
 qs@6.9.6:
   version "6.9.6"
