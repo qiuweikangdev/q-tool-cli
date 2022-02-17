@@ -1,6 +1,6 @@
 {
     "name": "q-tool-cli",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "main": "./lib/index.js",
     "bin": {
         "q-tool": "bin/index.js"

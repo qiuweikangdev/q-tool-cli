@@ -20,7 +20,7 @@ async function run(options) {
   const { devServer: devParam = {}, configureWebpack } = config;
   const devServerConfig = {
     hot: true,
-    open: false,
+    open: true,
     host: "localhost",
     port: 5000,
     ...devParam
