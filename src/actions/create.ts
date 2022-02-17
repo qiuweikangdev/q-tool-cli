@@ -1,9 +1,9 @@
 import path from "path";
 import { chalk, fs } from "zx";
-import { get } from "lodash";
+import { get, set } from "lodash";
 import inquirer from "inquirer";
 import PromptModuleAPI from "../promptModules/PromptModuleAPI";
-// import Linter from "../promptModules/linter";
+import { NAME, VERSION } from "./../utils/constants";
 import Creator from "../utils/Creator";
 import Generator from "../utils/Generator";
 import PackageManager from "../utils/PackageManager";
@@ -17,8 +17,8 @@ export default async (projecrName) => {
       {
         name: "overwrite",
         type: "confirm",
-        message: `目标目录 ${chalk.cyan(targetDir)} 不为空,删除现有文件并继续`,
-      },
+        message: `目标目录 ${chalk.cyan(targetDir)} 不为空,删除现有文件并继续`
+      }
     ]);
     if (!overwrite) {
       console.log(chalk.red("✖") + " 取消操作");
@@ -50,16 +50,17 @@ export default async (projecrName) => {
     version: "0.0.0",
     private: true,
     dependencies: {},
-    devDependencies: {},
+    devDependencies: {}
   };
   const generator = new Generator(pkg, targetDir, { ...answers, projecrName });
   const pm = new PackageManager({
     targetPath: targetDir,
-    pkgTool: answers.pkgTool,
+    pkgTool: answers.pkgTool
   });
 
   for await (const feature of Object.keys(answers)) {
     if (feature === "template") {
+      set(pkg, ["devDependencies", NAME], VERSION);
       const type = get(answers, "template");
       const cliTemplate = await import("q-cli-template");
       await get(cliTemplate, ["default", `${type}Template`])(
@@ -75,10 +76,6 @@ export default async (projecrName) => {
   console.log(`\r\n  cd ${chalk.cyan(projecrName)}`);
   console.log(`  ${pm.pkgTool} run dev\r\n`);
 };
-
-// 1、下载模板 【定义一个缓存的存储路径，第一次下载的时候，下载到缓存路径中】
-// 2、更新模板 【如果缓存路径模板存在，则更新模板，即更新package.json信息以及对应模板文件的内容信息 】
-// 3、安装模板 【把缓存的存储路径的模板拷贝到当前目录下】
 
 // 获取所有的Prompt
 async function getPromptModules() {
