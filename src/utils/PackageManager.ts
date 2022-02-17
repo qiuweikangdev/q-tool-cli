@@ -1,5 +1,4 @@
-import path from "path";
-import { $, fs, cd } from "zx";
+import { $, cd } from "zx";
 import { error, log } from "./logger";
 $.verbose = false;
 /**
@@ -11,23 +10,7 @@ class PackageManager {
   pkgTool: any;
   constructor(options) {
     this.targetPath = options.targetPath; // 目标路径
-    this.storePath = options.storePath; // 模板存储路径
     this.pkgTool = options.pkgTool || "npm"; // 包管理工具 npm/yarn
-  }
-
-  //判断存储的模板文件是否存在
-  async exists() {
-    // await this.prepare();
-    return fs.existsSync(this.storePath);
-  }
-
-  // 获取包配置
-  getPackage() {
-    return fs.readJsonSync(path.resolve(this.storePath, "package.json"));
-  }
-
-  async getVersion() {
-    return (await this.exists()) ? this.getPackage().version : null;
   }
 
   async install() {

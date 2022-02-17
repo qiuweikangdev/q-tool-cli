@@ -81,12 +81,6 @@ class Generator {
 
   // 写入文件，将模板文件、package.json、eslint等配置文件写入
   generate() {
-    // 从 package.json 中提取文件
-    // this.extractConfigFiles();
-    // 解析文件内容
-    // await this.resolveFiles();
-    // 将 package.json 中的字段排序
-    // this.sortPkg();
     this.files["package.json"] = JSON.stringify(this.pkg, null, 2) + "\n";
     // 将所有文件写入到用户要创建的目录
     writeFileTree(this.context, this.files);

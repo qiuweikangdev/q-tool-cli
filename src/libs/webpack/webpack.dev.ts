@@ -22,7 +22,7 @@ async function run(options) {
     hot: true,
     open: false,
     host: "localhost",
-    port: 8000,
+    port: 5000,
     ...devParam
   };
   const compiler = Webpack(configureWebpack(webpackConfig));
