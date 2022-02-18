@@ -1,31 +1,30 @@
-import path from "path";
-import Webpack, { Configuration } from "webpack";
-import merge from "webpack-merge";
-import webpackCommon from "./webpack.common";
-import { getWebpackConfig } from "../../utils/file";
+import path from 'path';
+import Webpack, { Configuration } from 'webpack';
+import merge from 'webpack-merge';
+import webpackCommon from './webpack.common';
+import { getWebpackConfig } from '../../utils/file';
 
 const buildConfig: Configuration = {
-  mode: "production",
-  devtool: "hidden-source-map",
+  mode: 'production',
+  devtool: 'hidden-source-map',
   output: {
-    path: path.resolve("./dist"),
-    filename: "[name].[contenthash].js",
-    chunkFilename: "[name].[contenthash].js",
+    path: path.resolve('./dist'),
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js',
     clean: true
-  },
-  plugins: []
+  }
 };
 
-function build(options) {
+function runBuild(options) {
   const config = getWebpackConfig();
   const { configureWebpack } = config;
   const webpackConfig = merge(webpackCommon(), buildConfig);
   const compiler = Webpack(configureWebpack(webpackConfig));
   compiler.run((err, stats) => {
-    stats.toJson("minimal");
+    stats.toJson('minimal');
     if (err) console.log(err);
     if (stats.hasErrors()) {
-      console.log(new Error("Build failed with errors."));
+      console.log(new Error('Build failed with errors.'));
     }
     if (stats.hasWarnings()) {
       console.warn(stats.hasWarnings());
@@ -33,4 +32,4 @@ function build(options) {
   });
 }
 
-export default build;
+export default runBuild;

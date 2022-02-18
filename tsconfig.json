@@ -12,14 +12,14 @@
         "stripInternal": true,
         "pretty": true,
         "declaration": true,
-        "declarationDir": "lib",
+        "declarationDir": "../../demo/node_modules/q-tool-cli/lib",
         "typeRoots": [
             "src/types",
             "./node_modules/@types"
         ],
         "noEmit": false,
         "jsx": "react-jsx",
-        "outDir": "lib",
+        "outDir": "../../demo/node_modules/q-tool-cli/lib",
         "baseUrl": "./",
         "paths": {
             "*": [
@@ -33,7 +33,7 @@
         "src/types/*"
     ],
     "exclude": [
-        "lib",
+        "../../demo/node_modules/q-tool-cli/lib",
         "bin",
         "node_modules",
     ]

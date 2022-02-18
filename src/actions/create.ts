@@ -1,12 +1,15 @@
-import path from "path";
-import { chalk, fs } from "zx";
-import { get, set } from "lodash";
-import inquirer from "inquirer";
-import PromptModuleAPI from "../promptModules/PromptModuleAPI";
-import { NAME, VERSION } from "./../utils/constants";
-import Creator from "../utils/Creator";
-import Generator from "../utils/Generator";
-import PackageManager from "../utils/PackageManager";
+import { includes, upperFirst } from 'lodash';
+import path from 'path';
+import { chalk, fs } from 'zx';
+import { get, set } from 'lodash';
+import inquirer from 'inquirer';
+import PromptModuleAPI from '../promptModules/PromptModuleAPI';
+import { NAME, VERSION } from './../utils/constants';
+import Creator from '../utils/Creator';
+import Generator from '../utils/Generator';
+import PackageManager from '../utils/PackageManager';
+import cliTemplate from 'q-cli-template';
+import { getPromptModules } from '../utils/utils';
 
 export default async (projecrName) => {
   const targetDir = path.join(process.cwd(), projecrName);
@@ -15,13 +18,13 @@ export default async (projecrName) => {
   if (fs.existsSync(targetDir)) {
     const { overwrite } = await inquirer.prompt([
       {
-        name: "overwrite",
-        type: "confirm",
+        name: 'overwrite',
+        type: 'confirm',
         message: `目标目录 ${chalk.cyan(targetDir)} 不为空,删除现有文件并继续`
       }
     ]);
     if (!overwrite) {
-      console.log(chalk.red("✖") + " 取消操作");
+      console.log(chalk.red('✖') + ' 取消操作');
       return;
     }
     // 如果覆盖则删除目录
@@ -39,36 +42,32 @@ export default async (projecrName) => {
     module(promptAPI);
   }
 
-  // 清空控制台
-  // clearConsole();
   // 弹出交互提示语并获取用户的选择
   const answers = await inquirer.prompt(creator.getPrompts());
-  //   const { eslintConfig, template } = answers;
   // package.json 文件内容
   const pkg = {
     name: projecrName,
-    version: "0.0.0",
+    version: '0.0.0',
     private: true,
     dependencies: {},
-    devDependencies: {}
+    devDependencies: {
+      [NAME]: VERSION
+    }
   };
   const generator = new Generator(pkg, targetDir, { ...answers, projecrName });
   const pm = new PackageManager({
     targetPath: targetDir,
     pkgTool: answers.pkgTool
   });
-
+  const type = get(answers, 'template');
   for await (const feature of Object.keys(answers)) {
-    if (feature === "template") {
-      set(pkg, ["devDependencies", NAME], VERSION);
-      const type = get(answers, "template");
-      const cliTemplate = await import("q-cli-template");
-      await get(cliTemplate, ["default", `${type}Template`])(
-        generator,
-        answers
-      );
+    if (feature === 'template') {
+      await get(cliTemplate, `${type}Template`)(generator, answers);
+    } else if (feature === 'linter') {
+      await get(cliTemplate, `eslint${upperFirst(type)}`)(generator, answers);
     }
   }
+
   await generator.generate();
   await pm.install();
   // 4）模板使用提示
@@ -76,13 +75,3 @@ export default async (projecrName) => {
   console.log(`\r\n  cd ${chalk.cyan(projecrName)}`);
   console.log(`  ${pm.pkgTool} run dev\r\n`);
 };
-
-// 获取所有的Prompt
-async function getPromptModules() {
-  // 可进行扩展 ['babel'、'linter']
-  const modules = await ["template", "pkgTool"].map(async (file) => {
-    const { default: module } = await import(`../promptModules/${file}`);
-    return module;
-  });
-  return modules;
-}

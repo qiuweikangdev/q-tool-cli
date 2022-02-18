@@ -11,6 +11,11 @@ npm install -g q-tool-cli
 ```bash
 q-tool create my-app
 ```
+## 检查版本
+```bash
+q-tool upgrade
+```
+
 ## 查看所有的可用命令
 
 ```bash
