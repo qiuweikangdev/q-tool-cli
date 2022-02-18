@@ -1,7 +1,7 @@
-import { includes, upperFirst } from 'lodash';
+import { upperFirst } from 'lodash';
 import path from 'path';
 import { chalk, fs } from 'zx';
-import { get, set } from 'lodash';
+import { get } from 'lodash';
 import inquirer from 'inquirer';
 import PromptModuleAPI from '../promptModules/PromptModuleAPI';
 import { NAME, VERSION } from './../utils/constants';
